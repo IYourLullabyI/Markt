@@ -3,52 +3,109 @@ import React, { useState } from 'react';
 import initialProduct from "./products.json";
 import './App.css';
 
-const ProductCard = function({product, handleClick}) {
-
+const ProductCard = function({ product, handleClick }) {
   return (
-    <li style={{
-                listStyle: "none",
-                border: '2px, solid, black',
-                display: "inline-block",
-                margin: "2rem"
-              }}>
-      <div style={{backgroundColor: "lightblue"}}>
-        <div style={{margin: "1rem", padding: ".5rem", fontSize: "1.5rem", fontWeight: "700"}}>{product.title}</div>
-        <div style={{color: "blue", fontSize: "1.2rem", fontWeight: "500", paddingLeft: "1.5rem", paddingBottom: "1rem"}}>{product.price}€</div>
-        <img src={product.images} alt={product.description} style={{display: "block", width: "100%", textAlign: "center"}}/>
-        <button onClick={() => handleClick(product.id, product.title, product.price)} style={{padding: ".5rem", fontWeight: "600", fontSize: "1.2rem", width: "100%", border: "1px solid black", background: "lightYellow", cursor: "pointer"}}>Hinzufügen</button>
+    <li key={product.id}
+      style={{
+        listStyle: "none",
+        border: "2px solid black",
+        display: "inline-block",
+        margin: "2rem",
+      }}
+    >
+      <div style={{ backgroundColor: "lightblue" }}>
+        <div
+          style={{
+            margin: "1rem",
+            padding: ".5rem",
+            fontSize: "1.5rem",
+            fontWeight: "700",
+          }}
+        >
+          {product.title}
+        </div>
+        <div
+          style={{
+            color: "blue",
+            fontSize: "1.2rem",
+            fontWeight: "500",
+            paddingLeft: "1.5rem",
+            paddingBottom: "1rem",
+          }}
+        >
+          {product.price}€
+        </div>
+        <img
+          src={product.images}
+          alt={product.description}
+          style={{
+            display: "block",
+            width: "100%",
+            textAlign: "center",
+          }}
+        />
+        <button
+          onClick={() =>
+            handleClick(product.id, product.title, product.price)
+          }
+          style={{
+            padding: ".5rem",
+            fontWeight: "600",
+            fontSize: "1.2rem",
+            width: "100%",
+            border: "1px solid black",
+            background: "lightYellow",
+            cursor: "pointer",
+          }}
+        >
+          Hinzufügen
+        </button>
       </div>
     </li>
-  )
-}
+  );
+};
 
-const Cart = function(cart, count) {
 
+const Cart = function({ cart, handleDelete }) {
+  console.log(cart)
   return (
-    <div>
-        Name: {cart.cart.name} Preis: {cart.cart.price}
+    <div key={cart.id}>
+      Name: {cart.name} Preis: {cart.price}{' '}
+      <button onClick={() => handleDelete(cart.id)}>Löschen</button>
     </div>
-  )
-}
+  );
+};
 
 function App() {
 const [products, setProducts] = React.useState(initialProduct.products)
 const [count, setCount] = React.useState(0)
 const [cart, setCart] = React.useState([])
 
+const handleDelete = id => {
+  const indexToRemove = cart.findIndex(item => item.id === id);
+
+  if (indexToRemove !== -1) {
+    const newArray = [...cart.slice(0, indexToRemove), ...cart.slice(indexToRemove + 1)];
+    setCart(newArray);
+  }
+  setCount(count - 1);
+};
+
 function handleClick(id, title, price) {
   setCount(count + 1);
   setCart((prevCart) => [
     ...prevCart, {
+      id: id,
       name: title,
       price: price + " €"
     }
   ])
-}
+};
 
-function handleCart() {
+const handleCart = function() {
   // const [showCart, setCart] = React.useState(false)
-}
+};
+
 
 
   return (
@@ -80,7 +137,7 @@ function handleCart() {
         border: "1px solid black",
         fontSize: ".8rem"
       }}>{cart.map((x) => (
-        <Cart cart={x} count={count}/>
+        <Cart cart={x} handleDelete={handleDelete}/>
       ))}
       </div> 
       {products.map((x) => (
