@@ -52,3 +52,7 @@
 .productCard:hover { 
   border: 2px solid grey;
 }
+
+span {
+  display: block;
+}

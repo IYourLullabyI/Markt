@@ -22,9 +22,9 @@ const ProductCard = function({ product, handleClick }) {
         listStyle: "none",
         display: "inline-block",
         margin: "2rem",
-        cursor: "pointer"
+        cursor: "pointer",
+        height: "100%",
       }}
-      onClick={cardOpen}
     >
       <div style={{ backgroundColor: "lightblue" }}>
         <div
@@ -53,12 +53,14 @@ const ProductCard = function({ product, handleClick }) {
           alt={product.description}
           style={{
             display: "block",
-            width: "100%",
+            maxWidth: "100%",
             textAlign: "center",
           }}
         />
         {openMenu && (
-          <div> Hallo 
+          <div style={{ whiteSpace: 'pre-line' }}> 
+            <span>Beschreibung: {product.description}</span> <span>Preis: {product.price} €</span>
+            <span >Auf Lager</span>
             <button onClick={closeMenu}>Close</button>
           </div>)}
         <button
@@ -66,16 +68,32 @@ const ProductCard = function({ product, handleClick }) {
             handleClick(product.id, product.title, product.price)
           }
           style={{
-            padding: ".5rem",
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
             fontWeight: "600",
             fontSize: "1.2rem",
-            width: "100%",
             border: "1px solid black",
             cursor: "pointer",
+            display: "inline-block"
           }}
           className="addButton"
         >
           Hinzufügen
+        </button>
+        <button style={{
+          paddingLeft: "2rem",
+          paddingRight: "2rem",
+          width: "50%",
+          marginLeft: ".4rem",
+          fontWeight: "600",
+          fontSize: "1.1rem",
+          border: "1px solid black",
+          cursor: "pointer",
+          display: "inline-block"
+        }}
+        onClick={cardOpen}
+        className="addButton">
+          Mehr Informationen...
         </button>
       </div>
     </li>
