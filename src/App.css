@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.addButton {
+  background: "lightYellow"
+}
+
+.addButton:hover {
+  background-color: yellow;
+}
+
+.productCard {
+  border: 2px solid black;
+}
+
+.productCard:hover { 
+  border: 2px solid grey;
+}

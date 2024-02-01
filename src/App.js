@@ -3,15 +3,28 @@ import React, { useState } from 'react';
 import initialProduct from "./products.json";
 import './App.css';
 
+// *************************** Jedes einzelne Produkt ***************************
+
 const ProductCard = function({ product, handleClick }) {
+  const [openMenu, setOpenMenu] = useState(false)
+
+  const cardOpen = () => {
+    setOpenMenu(true)
+  }
+
+  const closeMenu = () => {
+    setOpenMenu(false)
+  }
+
   return (
-    <li key={product.id}
+    <li key={product.id} className="productCard"
       style={{
         listStyle: "none",
-        border: "2px solid black",
         display: "inline-block",
         margin: "2rem",
+        cursor: "pointer"
       }}
+      onClick={cardOpen}
     >
       <div style={{ backgroundColor: "lightblue" }}>
         <div
@@ -44,6 +57,10 @@ const ProductCard = function({ product, handleClick }) {
             textAlign: "center",
           }}
         />
+        {openMenu && (
+          <div> Hallo 
+            <button onClick={closeMenu}>Close</button>
+          </div>)}
         <button
           onClick={() =>
             handleClick(product.id, product.title, product.price)
@@ -54,9 +71,9 @@ const ProductCard = function({ product, handleClick }) {
             fontSize: "1.2rem",
             width: "100%",
             border: "1px solid black",
-            background: "lightYellow",
             cursor: "pointer",
           }}
+          className="addButton"
         >
           Hinzufügen
         </button>
@@ -65,9 +82,9 @@ const ProductCard = function({ product, handleClick }) {
   );
 };
 
+// *************************** Warenkorb ***************************
 
 const Cart = function({ cart, handleDelete }) {
-  console.log(cart)
   return (
     <div key={cart.id}>
       Name: {cart.name} Preis: {cart.price}{' '}
@@ -76,10 +93,13 @@ const Cart = function({ cart, handleDelete }) {
   );
 };
 
+// *************************** Main App ***************************
+
 function App() {
 const [products, setProducts] = React.useState(initialProduct.products)
 const [count, setCount] = React.useState(0)
 const [cart, setCart] = React.useState([])
+
 
 const handleDelete = id => {
   const indexToRemove = cart.findIndex(item => item.id === id);
@@ -141,9 +161,8 @@ const handleCart = function() {
       ))}
       </div> 
       {products.map((x) => (
-        <ProductCard product={x} handleClick={handleClick}/>
+        <ProductCard product={x} handleClick={handleClick} />
       ))}
-  	 
       </>
   );
 }
