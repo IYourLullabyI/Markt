@@ -141,7 +141,6 @@ function handleClick(id, title, price) {
 };
 
 const handleCart = function() {
-  // const [showCart, setCart] = React.useState(false)
 };
 
 
