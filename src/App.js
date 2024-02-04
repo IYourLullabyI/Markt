@@ -22,14 +22,12 @@ const ProductCard = function({ product, handleClick }) {
         listStyle: "none",
         display: "inline-block",
         margin: "2rem",
-        cursor: "pointer",
         height: "100%",
       }}
     >
       <div style={{ backgroundColor: "lightblue" }}>
         <div
           style={{
-            margin: "1rem",
             padding: ".5rem",
             fontSize: "1.5rem",
             fontWeight: "700",
@@ -61,7 +59,7 @@ const ProductCard = function({ product, handleClick }) {
           <div style={{ whiteSpace: 'pre-line' }}> 
             <span>Beschreibung: {product.description}</span> <span>Preis: {product.price} €</span>
             <span >Auf Lager</span>
-            <button onClick={closeMenu}>Close</button>
+            <button onClick={closeMenu} style={{cursor: "pointer"}}>Close</button>
           </div>)}
         <button
           onClick={() =>
@@ -104,9 +102,11 @@ const ProductCard = function({ product, handleClick }) {
 
 const Cart = function({ cart, handleDelete }) {
   return (
-    <div key={cart.id}>
+    <div key={cart.id} className='cart'>
       Name: {cart.name} Preis: {cart.price}{' '}
-      <button onClick={() => handleDelete(cart.id)}>Löschen</button>
+      <button onClick={() => handleDelete(cart.id)}  style={{
+        cursor: "pointer"
+      }}>Löschen</button>
     </div>
   );
 };
@@ -152,10 +152,12 @@ const closeCart = function() {
 
 
   return (
-      <>
+      <div className='App'>
       <h1 className="hl" style={{
         paddingTop: ".5rem",
-        paddingLeft: "2rem"
+        paddingLeft: "2rem",
+        color: "white",
+        marginBottom: "1.5rem"
         }}>
           Obst-Kurier
       </h1>
@@ -163,16 +165,24 @@ const closeCart = function() {
         display: "block",
         fontSize: "1.4rem",
         fontWeight: "600",
-        textAlign: "center"
+        textAlign: "center",
+        color: "white"
         }}>
-        <button onClick={handleCart} style={{
+        <div onClick={handleCart} 
+        className='itemsBtn'
+        style={{
+          display: "inline",
           border: "none",
-          background: "grey",
-          fontSize: "1rem",
-          padding: "5px 20px",
-          cursor: "pointer"
+          cursor: "pointer",
+          color: "white",
+          border: "1px solid white",
+          paddingLeft: ".3rem",
+          paddingRight: ".3rem",
+          marginRight: ".5rem"
           }}>Items
-        </button>:{count}
+        </div>:<span style={{
+          display: "inline-block",
+          marginLeft: ".5rem"}}>{count}</span>
       </div>
       {openCart && (<div className='cart' style={{
         width: "500px",
@@ -197,7 +207,7 @@ const closeCart = function() {
       {products.map((x) => (
         <ProductCard product={x} handleClick={handleClick} />
       ))}
-      </>
+      </div>
   );
 }
 
