@@ -180,7 +180,15 @@ const closeCart = function() {
         border: "1px solid black",
         fontSize: ".8rem"
       }}>
-        <button onClick={closeCart} className="closeBtn" style={{float: "right", margin: ".6rem", border: "1px solid black", backgroundColor: "#fff", cursor: "pointer", padding: ".3rem", fontWeight: "700"}}>Close</button>
+        <button onClick={closeCart} className="closeBtn" style={{
+          float: "right",
+          margin: ".6rem",
+          border: "1px solid black",
+          backgroundColor: "#fff",
+          cursor: "pointer",
+          padding: ".3rem",
+          fontWeight: "700"
+          }}>Close</button>
         {cart.map((x) => (
         <Cart cart={x} handleDelete={handleDelete}/>
       ))}
