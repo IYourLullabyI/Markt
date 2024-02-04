@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import React, { useState } from 'react';
 import initialProduct from "./products.json";
 import './App.css';
@@ -114,7 +113,7 @@ const Cart = function({ cart, handleDelete }) {
 // *************************** Main App ***************************
 
 function App() {
-const [products, setProducts] = React.useState(initialProduct.products)
+const [products] = React.useState(initialProduct.products)
 const [count, setCount] = React.useState(0)
 const [cart, setCart] = React.useState([])
 const [openCart, setOpenCart] = React.useState(false)
