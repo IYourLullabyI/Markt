@@ -10,8 +10,8 @@ on:
     branches: 
       - main
 
-env:
-  BUILD_PATH: "."
+#env:
+  #BUILD_PATH: "."
 
 jobs:
   build:
