@@ -37,6 +37,11 @@
   }
 }
 
+.closeBtn:hover {
+  background:  #a5a5a5;
+  
+}
+
 .addButton {
   background: "lightYellow";
   margin: .4rem;

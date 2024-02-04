@@ -117,6 +117,7 @@ function App() {
 const [products, setProducts] = React.useState(initialProduct.products)
 const [count, setCount] = React.useState(0)
 const [cart, setCart] = React.useState([])
+const [openCart, setOpenCart] = React.useState(false)
 
 
 const handleDelete = id => {
@@ -141,7 +142,12 @@ function handleClick(id, title, price) {
 };
 
 const handleCart = function() {
+  setOpenCart(true)
 };
+
+const closeCart = function() {
+  setOpenCart(false)
+}
 
 
 
@@ -168,15 +174,18 @@ const handleCart = function() {
           }}>Items
         </button>:{count}
       </div>
-      <div className='cart' style={{
+      {openCart && (<div className='cart' style={{
         width: "500px",
         height: "250px",
         border: "1px solid black",
         fontSize: ".8rem"
-      }}>{cart.map((x) => (
+      }}>
+        <button onClick={closeCart} className="closeBtn" style={{float: "right", margin: ".6rem", border: "1px solid black", backgroundColor: "#fff", cursor: "pointer", padding: ".3rem", fontWeight: "700"}}>Close</button>
+        {cart.map((x) => (
         <Cart cart={x} handleDelete={handleDelete}/>
       ))}
-      </div> 
+      </div>)}
+       
       {products.map((x) => (
         <ProductCard product={x} handleClick={handleClick} />
       ))}
