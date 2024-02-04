@@ -172,7 +172,6 @@ const closeCart = function() {
         className='itemsBtn'
         style={{
           display: "inline",
-          border: "none",
           cursor: "pointer",
           color: "white",
           border: "1px solid white",
