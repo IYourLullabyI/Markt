@@ -22,6 +22,7 @@ const ProductCard = function({ product, handleClick }) {
         display: "inline-block",
         margin: "2rem",
         height: "100%",
+        width: "20%"
       }}
     >
       <div style={{ backgroundColor: "lightblue" }}>
@@ -46,7 +47,7 @@ const ProductCard = function({ product, handleClick }) {
           {product.price}€
         </div>
         <img
-          src={product.images}
+          src={product.thumbnail}
           alt={product.description}
           style={{
             display: "block",
@@ -99,10 +100,12 @@ const ProductCard = function({ product, handleClick }) {
 
 // *************************** Warenkorb ***************************
 
-const Cart = function({ cart, handleDelete }) {
+const Cart = function({ cart, handleDelete, cartProducts }) {
+
   return (
+    
     <div key={cart.id} className='cart'>
-      Name: {cart.name} Preis: {cart.price}{' '}
+      Name: {cart.name} Preis: {cart.price * cart.itemCount}{' '} Menge: {cart.itemCount}
       <button onClick={() => handleDelete(cart.id)}  style={{
         cursor: "pointer"
       }}>Löschen</button>
@@ -131,13 +134,22 @@ const handleDelete = id => {
 
 function handleClick(id, title, price) {
   setCount(count + 1);
-  setCart((prevCart) => [
+  const existingItemIndex = cart.findIndex((item) => item.id === id);
+  
+    if(existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].itemCount += 1;
+      setCart(updatedCart)
+    } else {
+     setCart((prevCart) => [
     ...prevCart, {
       id: id,
       name: title,
-      price: price + " €"
+      price: price + " €",
+      itemCount: 1,
     }
-  ])
+    ]) 
+    }
 };
 
 const handleCart = function() {
@@ -198,7 +210,7 @@ const closeCart = function() {
           fontWeight: "700"
           }}>Close</button>
         {cart.map((x) => (
-        <Cart cart={x} handleDelete={handleDelete}/>
+        <Cart cart={x} handleDelete={handleDelete} cartProducts={cart}/>
       ))}
       </div>)}
        
@@ -210,3 +222,4 @@ const closeCart = function() {
 }
 
 export default App;
+
