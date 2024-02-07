@@ -100,15 +100,16 @@ const ProductCard = function({ product, handleClick }) {
 
 // *************************** Warenkorb ***************************
 
-const Cart = function({ cart, handleDelete, cartProducts }) {
-
+const Cart = function({ cart, handleDelete, delOne }) {
+const price = parseInt(cart.price) * cart.itemCount
   return (
     
     <div key={cart.id} className='cart'>
-      Name: {cart.name} Preis: {cart.price * cart.itemCount}{' '} Menge: {cart.itemCount}
-      <button onClick={() => handleDelete(cart.id)}  style={{
+      Name: {cart.name} Preis: {price}{'€'} Menge: {cart.itemCount}
+      <button onClick={() => handleDelete(cart.id, cart.itemCount)}  style={{
         cursor: "pointer"
-      }}>Löschen</button>
+      }}>Alle Löschen</button>
+      <button onClick={() => delOne(cart.id)}>Eins löschen</button>
     </div>
   );
 };
@@ -122,15 +123,28 @@ const [cart, setCart] = React.useState([])
 const [openCart, setOpenCart] = React.useState(false)
 
 
-const handleDelete = id => {
+const handleDelete = (id, itemCount) => {
   const indexToRemove = cart.findIndex(item => item.id === id);
-
   if (indexToRemove !== -1) {
     const newArray = [...cart.slice(0, indexToRemove), ...cart.slice(indexToRemove + 1)];
     setCart(newArray);
   }
-  setCount(count - 1);
+  setCount(count - itemCount);
 };
+
+const delOne = (id) => {
+  const indexToRemove = cart.findIndex(item => item.id === id);
+  if (indexToRemove !== -1) {
+    const updatedCart = [...cart];
+    updatedCart[indexToRemove].itemCount -= 1;
+
+    if(updatedCart[indexToRemove].itemCount === 0) {
+      updatedCart.splice(indexToRemove, 1)
+    }
+    setCart(updatedCart);
+  }
+  setCount(count - 1);
+}
 
 function handleClick(id, title, price) {
   setCount(count + 1);
@@ -210,7 +224,7 @@ const closeCart = function() {
           fontWeight: "700"
           }}>Close</button>
         {cart.map((x) => (
-        <Cart cart={x} handleDelete={handleDelete} cartProducts={cart}/>
+        <Cart cart={x} handleDelete={handleDelete} cartProducts={cart} delOne={delOne}/>
       ))}
       </div>)}
        
