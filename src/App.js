@@ -121,7 +121,14 @@ const [products] = React.useState(initialProduct.products)
 const [count, setCount] = React.useState(0)
 const [cart, setCart] = React.useState([])
 const [openCart, setOpenCart] = React.useState(false)
+const [selectedCategory, setSelectedCategory] = useState('')
+const uniqueCategories = [...new Set(products.map((x) => x.category))]
 
+
+const handleCategoryChange = (event) => {
+  const selectedCategory = event.target.value;
+  setSelectedCategory(selectedCategory);
+}
 
 const handleDelete = (id, itemCount) => {
   const indexToRemove = cart.findIndex(item => item.id === id);
@@ -174,7 +181,20 @@ const closeCart = function() {
   setOpenCart(false)
 }
 
+const renderSwitch = (cat) => {
+  switch (cat) {
+    case "":
+      return products.map((x) => (
+        <ProductCard key={x.id} product={x} handleClick={handleClick} />
+      ));
 
+    default:
+      const filteredProducts = products.filter((x) => x.category === cat);
+      return filteredProducts.map((x) => (
+        <ProductCard key={x.id} product={x} handleClick={handleClick} />
+      ));
+  }
+};
 
   return (
       <div className='App'>
@@ -208,6 +228,21 @@ const closeCart = function() {
           display: "inline-block",
           marginLeft: ".5rem"}}>{count}</span>
       </div>
+      <div style={{marginLeft: "80%"}}>
+      <p style={{color: "white", fontWeight: "700"}}>Select a Category</p>
+      <select id="categorySelect" style={{
+                                            textAlign: "center",
+                                            }}
+                                            value={selectedCategory}
+                                            onChange={handleCategoryChange}>
+        <option value="">All Categories</option>
+          {uniqueCategories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+        ))}
+      </select>
+      </div>
       {openCart && (<div className='cart' style={{
         width: "500px",
         height: "250px",
@@ -227,10 +262,13 @@ const closeCart = function() {
         <Cart cart={x} handleDelete={handleDelete} cartProducts={cart} delOne={delOne}/>
       ))}
       </div>)}
-       
-      {products.map((x) => (
+      <>
+      {renderSwitch(selectedCategory)}
+      </>
+      
+      {/* {products.map((x) => (
         <ProductCard product={x} handleClick={handleClick} />
-      ))}
+      ))} */}
       </div>
   );
 }
